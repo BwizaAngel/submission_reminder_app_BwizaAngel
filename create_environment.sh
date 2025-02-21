@@ -15,14 +15,14 @@ touch "submission_reminder_${user_name}/startup.sh" && chmod u+x "submission_rem
 touch "submission_reminder_${user_name}/assets/submissions.txt"
 
 # Populate the files with the required contents (example for `submissions.txt`)
-echo 'student, assignment, submission status
-here, Shell Navigation, submitted
-Noel, Shell Navigation, not submitted
-chris, Shell Navigation, not submitted
-keza, Shell Navigation, not submitted
-gaju, Shell Navigation, submitted
-beza, Shell Navigation, not submitted
-dany, Shell Navigation, submitted' > "submission_reminder_${user_name}/assets/submissions.txt"
+student, assignment, submission status
+Jesusa, Shell Navigation, submitted
+Noella, Shell Navigation, not submitted
+Princess, Shell Navigation, not submitted
+Elisa, Shell Navigation, not submitted
+Belicia, Shell Navigation, submitted
+Willy, Shell Navigation, not submitted
+dan, Shell Navigation, submitted > "submission_reminder_${user_name}/assets/submissions.txt"
 
 # Example for config.env
 echo '# This is the config file
