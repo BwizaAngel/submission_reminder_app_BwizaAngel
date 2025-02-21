@@ -1,6 +1,6 @@
 student, assignment, submission status
-Jesusa, Shell Navigation, submitted
-Noella, Shell Navigation, not submitted
+here, Shell Navigation, submitted
+Noel, Shell Navigation, not submitted
 Princess, Shell Navigation, not submitted
 Elisa, Shell Navigation, not submitted
 Belicia, Shell Navigation, submitted
