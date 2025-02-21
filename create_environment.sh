@@ -7,29 +7,25 @@ read user_name
 # Create the main directory with the user's name
 mkdir -p "submission_reminder_${user_name}/"{app,config,modules,assets}
 
-# Create necessary files inside the respective directories
 touch "submission_reminder_${user_name}/config/config.env"
 touch "submission_reminder_${user_name}/app/reminder.sh" && chmod u+x "submission_reminder_${user_name}/app/reminder.sh"
 touch "submission_reminder_${user_name}/modules/functions.sh" && chmod u+x "submission_reminder_${user_name}/modules/functions.sh"
 touch "submission_reminder_${user_name}/startup.sh" && chmod u+x "submission_reminder_${user_name}/startup.sh"
 touch "submission_reminder_${user_name}/assets/submissions.txt"
 
-# Populate the files with the required contents (example for `submissions.txt`)
-student, assignment, submission status
-Jesusa, Shell Navigation, submitted
-Noella, Shell Navigation, not submitted
+echo 'student, assignment, submission status
+here, Shell Navigation, submitted
+Noel, Shell Navigation, not submitted
 Princess, Shell Navigation, not submitted
 Elisa, Shell Navigation, not submitted
 Belicia, Shell Navigation, submitted
 Willy, Shell Navigation, not submitted
-dan, Shell Navigation, submitted > "submission_reminder_${user_name}/assets/submissions.txt"
+dan, Shell Navigation, submitted' > "submission_reminder_${user_name}/assets/submissions.txt"
 
-# Example for config.env
 echo '# This is the config file
 ASSIGNMENT="Shell Navigation"
 DAYS_REMAINING=2' > "submission_reminder_${user_name}/config/config.env"
 
-# Example for functions.sh
 echo '#!/bin/bash
 
 # Function to read submissions file and output students who have not submitted
@@ -51,7 +47,6 @@ function check_submissions {
     done < <(tail -n +2 "$submissions_file") # Skip the header
 }' > "submission_reminder_${user_name}/modules/functions.sh"
 
-# Example for reminder.sh
 echo '#!/bin/bash
 
 # Source environment variables and helper functions
@@ -67,7 +62,7 @@ echo "--------------------------------------------"
 
 check_submissions $submissions_file' > "submission_reminder_${user_name}/app/reminder.sh"
 
-# Example for startup.sh
 echo '#!/bin/bash
 ./app/reminder.sh' > "submission_reminder_${user_name}/startup.sh"
 
+./submission_reminder_app/startup.sh
