@@ -1,8 +1,0 @@
-student, assignment, submission status
-here, Shell Navigation, submitted
-Noel, Shell Navigation, not submitted
-Princess, Shell Navigation, not submitted
-Elisa, Shell Navigation, not submitted
-Belicia, Shell Navigation, submitted
-Willy, Shell Navigation, not submitted
-dan, Shell Navigation, submitted

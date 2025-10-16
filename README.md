@@ -1,19 +1,24 @@
-# Submission Reminder App
+Submission Reminder — Summary
 
-This repository contains the "Submission Reminder App" which helps to remind students about their assignment submissions.
+This project includes two Bash scripts to help manage student assignment submissions efficiently.
 
-## How to Run
+create_environment.sh – sets up a folder named submission_reminder_{YourName} with subfolders (config, scripts, submissions) and required files.
 
-1. Clone this repository.
-2. Run the `create_environment.sh` script to set up the environment.
-   - This will create the directory structure and populate the necessary files.
-3. Use the `startup.sh` script to run the reminder app.
-4. The `reminder.sh` script checks the submissions and sends reminders to students who have not submitted their assignments.
+copilot_shell_script.sh – asks for an assignment name and checks the submissions folder to see which students haven’t submitted their work.
 
-## Files:
-- `create_environment.sh`: Script to set up the environment.
-- `reminder.sh`: Script that checks submission statuses and sends reminders.
-- `functions.sh`: Contains helper functions for checking submissions.
-- `config.env`: Configuration file containing environment variables.
-- `submissions.txt`: Contains a list of student submissions and their statuses.
+Usage
+
+Run create_environment.sh to set up the environment.
+
+Add student files in submissions/.
+
+Run copilot_shell_script.sh and enter the assignment name to view missing submissions.
+
+Git Workflow
+
+Work in a feature branch (e.g. feature/setup) and merge into main when done.
+After merging, only these files should remain in the main branch:
+create_environment.sh
+copilot_shell_script.sh
+README.md
 

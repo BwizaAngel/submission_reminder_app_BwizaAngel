@@ -1,32 +1,55 @@
+#!/usr/bin/bash
+
+#When the script runs, it should prompt the user for their name and create a directory named submission_reminder_{yourName}, replacing {yourName} With the input.
+
+read -p "Enter your name: " yourname
+#make the directory called submission_remainder_{yourname} as well as the subdirectories with their contents
+
+parent_dir="submission_remainder_${yourname}"
+mkdir -p "$parent_dir"
+
+#create subdirectories
+mkdir -p "$parent_dir/app"
+mkdir -p "$parent_dir/modules"
+mkdir -p "$parent_dir/assets"
+mkdir -p "$parent_dir/config"
+
+#creating the files and their contents
+
+app="$parent_dir/app"
+modules="$parent_dir/modules"
+assets="$parent_dir/assets"
+config="$parent_dir/config"
+
+#create config.env and its content
+cat > "$config/config.env" << 'EOF'
+# This is the config file
+ASSIGNMENT="Shell Navigation"
+DAYS_REMAINING=2
+EOF
+
+#create reminder.sh and its content
+cat > "$app/reminder.sh" << 'EOF'
 #!/bin/bash
 
-# Prompt for the user's name
-echo "Please enter your name:"
-read user_name
+# Source environment variables and helper functions
+source ./config/config.env
+source ./modules/functions.sh
 
-# Create the main directory with the user's name
-mkdir -p "submission_reminder_${user_name}/"{app,config,modules,assets}
+# Path to the submissions file
+submissions_file="$(dirname "$0")/../assets/submissions.txt"
 
-touch "submission_reminder_${user_name}/config/config.env"
-touch "submission_reminder_${user_name}/app/reminder.sh" && chmod u+x "submission_reminder_${user_name}/app/reminder.sh"
-touch "submission_reminder_${user_name}/modules/functions.sh" && chmod u+x "submission_reminder_${user_name}/modules/functions.sh"
-touch "submission_reminder_${user_name}/startup.sh" && chmod u+x "submission_reminder_${user_name}/startup.sh"
-touch "submission_reminder_${user_name}/assets/submissions.txt"
+# Print remaining time and run the reminder function
+echo "Assignment: $ASSIGNMENT"
+echo "Days remaining to submit: $DAYS_REMAINING days"
+echo "--------------------------------------------"
 
-echo 'student, assignment, submission status
-here, Shell Navigation, submitted
-Noel, Shell Navigation, not submitted
-Princess, Shell Navigation, not submitted
-Elisa, Shell Navigation, not submitted
-Belicia, Shell Navigation, submitted
-Willy, Shell Navigation, not submitted
-dan, Shell Navigation, submitted' > "submission_reminder_${user_name}/assets/submissions.txt"
+check_submissions $submissions_file
+EOF
 
-echo '# This is the config file
-ASSIGNMENT="Shell Navigation"
-DAYS_REMAINING=2' > "submission_reminder_${user_name}/config/config.env"
-
-echo '#!/bin/bash
+#create functions.sh and its contents
+cat > "$modules/functions.sh" << 'EOF'
+#!/bin/bash
 
 # Function to read submissions file and output students who have not submitted
 function check_submissions {
@@ -40,29 +63,58 @@ function check_submissions {
         assignment=$(echo "$assignment" | xargs)
         status=$(echo "$status" | xargs)
 
-        # Check if assignment matches and status is not submitted
+        # Check if assignment matches and status is 'not submitted'
         if [[ "$assignment" == "$ASSIGNMENT" && "$status" == "not submitted" ]]; then
             echo "Reminder: $student has not submitted the $ASSIGNMENT assignment!"
         fi
     done < <(tail -n +2 "$submissions_file") # Skip the header
-}' > "submission_reminder_${user_name}/modules/functions.sh"
+}
+EOF
 
-echo '#!/bin/bash
+#create submissions.txt and its contents
+cat > "$assets/submissions.txt" << 'EOF'
+student, assignment, submission status
+Ganza, Shell Navigation, not submitted
+Franklin, Git, submitted
+Anitta, Shell Navigation, not submitted
+Keza, Shell Basics, submitted
+Mwiza, Git, submitted
+Mugisha, Git, not submitted
+Miguel, Shell Navigation, not submitted
+Antoinnenete, shell Basics, submitted
+Stephan, Shell Navigation, not submitted
+Jordan, Git, not submitted
+Ronaldo, Shell Basics, submitted
+EOF
 
-# Source environment variables and helper functions
-source ../config/config.env
-source ../modules/functions.sh
+cat > "$parent_dir/startup.sh" << 'EOF'
+#!/bin/bash
 
-# Path to the submissions file
-submissions_file="../assets/submissions.txt"
-# Print remaining time and run the reminder function
-echo "Assignment: $ASSIGNMENT"
-echo "Days remaining to submit: $DAYS_REMAINING days"
-echo "--------------------------------------------"
+# Get absolute path of this script
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-check_submissions $submissions_file' > "submission_reminder_${user_name}/app/reminder.sh"
+# Path to reminder.sh
+reminder_script="$script_dir/app/reminder.sh"
 
-echo '#!/bin/bash
-./app/reminder.sh' > "submission_reminder_${user_name}/startup.sh"
+# Check if config file exists
+if [ ! -f "$script_dir/config/config.env" ]; then
+    echo "Error: config.env not found. Please run this script from inside $script_dir"
+    exit 1
+fi
 
-./submission_reminder_app/startup.sh
+# Launch the reminder app
+bash "$reminder_script"
+
+EOF
+
+#Give .sh files excecution permissions
+chmod +x $app/*
+chmod +x $modules/*
+cd $parent_dir
+chmod +x startup.sh
+cd ..
+
+
+echo "wow! Environment has been created successfully"
+echo "To test the application run:"
+echo "cd $parent_dir && ./startup.sh"
